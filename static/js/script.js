@@ -1,5 +1,4 @@
 let selectedPlayers = null;
-let firstPlayerToThrow = 1;
 let currentPlayer = 1; // Jelenlegi játékos
 let currentThrow = 0; // Jelenlegi dobások száma
 let scores = {}; // Játékosok pontszámai
@@ -125,6 +124,18 @@ function handleNumberSelection(number, type) {
         let throwButtons = document.querySelectorAll(".button-container button");
         throwButtons.forEach(button => button.disabled = false);
     }
+
+    // Ha vége van a dobásnak, újra választhat a dobás típusa
+    resetThrowOptions();
+}
+
+function resetThrowOptions() {
+    // Elrejtjük az 1-20 számokat
+    document.getElementById("numbers-selection").style.display = "none";
+
+    // Újra engedjük a dobás típusának választását
+    let throwButtons = document.querySelectorAll(".button-container button");
+    throwButtons.forEach(button => button.disabled = false);
 }
 
 function updateScoreDisplay() {
