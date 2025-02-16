@@ -24,3 +24,9 @@ button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+#players-display div {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}

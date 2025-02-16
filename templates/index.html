@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dart Scoring App</title>
-    <!-- Linkelés a CSS fájlhoz -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -20,7 +19,10 @@
         </div>
     </div>
 
-    <!-- Linkelés a JavaScript fájlhoz -->
+    <div id="players-display" style="display: none;">
+        <div id="player1">Player 1: 501</div>
+    </div>
+
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
