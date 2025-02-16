@@ -71,6 +71,9 @@ function selectThrowType(type) {
             };
             numbersContainer.appendChild(numberButton);
         }
+    } else {
+        // Ha 25, 50 vagy none választás van, azonnal levonjuk az összeget és váltunk a következő játékosra
+        handleSpecialThrow(type);
     }
 }
 
@@ -100,6 +103,51 @@ function handleNumberSelection(number, type) {
     }
 
     // Levonjuk a kiválasztott dobás értékét az aktuális játékos pontszámából
+    scores[currentPlayer] -= scoreDeduction;
+    updateScoreDisplay();
+
+    // Növeljük a dobások számát
+    currentThrow++;
+
+    // Ha 3 dobás után vált a játékos
+    if (currentThrow >= 3) {
+        currentThrow = 0;  // Resetáljuk a dobások számát
+        currentPlayer++;    // Váltunk a következő játékosra
+
+        // Ha elértük az utolsó játékost, kezdjük újra az első játékossal
+        if (currentPlayer > selectedPlayers) {
+            currentPlayer = 1;
+        }
+
+        // Frissítjük, hogy ki dob most
+        document.getElementById("player-turn").innerHTML = `Player ${currentPlayer} to throw first!`;
+
+        // Elrejtjük a számokat és újra elérhetővé tesszük a dobás típusokat
+        document.getElementById("numbers-selection").style.display = "none";
+        let throwButtons = document.querySelectorAll(".button-container button");
+        throwButtons.forEach(button => button.disabled = false);
+    }
+
+    // Ha vége van a dobásnak, újra választhat a dobás típusa
+    resetThrowOptions();
+}
+
+function handleSpecialThrow(type) {
+    let scoreDeduction = 0;
+
+    // Levonjuk a kiválasztott dobás értékét az aktuális játékos pontszámából
+    switch(type) {
+        case '25':
+            scoreDeduction = 25;
+            break;
+        case '50':
+            scoreDeduction = 50;
+            break;
+        case 'none':
+            scoreDeduction = 0;
+            break;
+    }
+
     scores[currentPlayer] -= scoreDeduction;
     updateScoreDisplay();
 
