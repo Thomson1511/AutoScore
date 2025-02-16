@@ -8,6 +8,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 20px;
+    margin-top: 20px;
 }
 
 button {
@@ -29,4 +30,14 @@ button:disabled {
     margin-top: 10px;
     font-size: 18px;
     font-weight: bold;
+}
+
+#first-player-to-throw {
+    font-size: 20px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+#players-display .button-container button {
+    font-size: 16px;
 }
