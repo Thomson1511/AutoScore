@@ -2,6 +2,8 @@ let selectedPlayers = null;
 let currentPlayer = 1; // Jelenlegi játékos
 let currentThrow = 0; // Jelenlegi dobások száma
 let scores = {}; // Játékosok pontszámai
+let originalScores = {}; // A játékosok eredeti pontszáma (501)
+let currentPlayerScores = {};  // Tároljuk az aktuális játékosok pontszámait
 
 // Kezdeti pontszám beállítása
 const startingScore = 501;
@@ -9,6 +11,7 @@ const startingScore = 501;
 function selectPlayers(players) {
     selectedPlayers = players;
     scores = {};  // Játékosok pontszámainak resetelése
+    originalScores = {};  // Eredeti pontszámok resetelése
 
     // Elrejtjük a választási lehetőséget
     document.getElementById("players-selection").style.display = "none";
@@ -23,6 +26,7 @@ function selectPlayers(players) {
     // Hozzáadjuk a játékosokat
     for (let i = 1; i <= selectedPlayers; i++) {
         scores[i] = startingScore;  // Minden játékos 501-tel kezd
+        originalScores[i] = startingScore; // Eredeti pontszámok elmentése
         let playerDiv = document.createElement("div");
         playerDiv.id = `player-${i}`;
         playerDiv.innerHTML = `Player ${i}: ${scores[i]}`;
@@ -106,12 +110,25 @@ function handleNumberSelection(number, type) {
     scores[currentPlayer] -= scoreDeduction;
     updateScoreDisplay();
 
+    // Ha a játékos pontszáma mínuszba megy, visszaállítjuk az eredeti pontszámra
+    if (scores[currentPlayer] < 0) {
+        scores[currentPlayer] = originalScores[currentPlayer];
+        updateScoreDisplay();
+    }
+
+    // Ha a játékos pontosan nullára dob, akkor ő nyer
+    if (scores[currentPlayer] === 0) {
+        alert(`Player ${currentPlayer} wins!`);
+        resetGame();
+    }
+
     // Növeljük a dobások számát
     currentThrow++;
 
     // Ha 3 dobás után vált a játékos
     if (currentThrow >= 3) {
         currentThrow = 0;  // Resetáljuk a dobások számát
+        
         currentPlayer++;    // Váltunk a következő játékosra
 
         // Ha elértük az utolsó játékost, kezdjük újra az első játékossal
@@ -150,6 +167,18 @@ function handleSpecialThrow(type) {
 
     scores[currentPlayer] -= scoreDeduction;
     updateScoreDisplay();
+
+    // Ha a játékos pontszáma mínuszba megy, visszaállítjuk az eredeti pontszámra
+    if (scores[currentPlayer] < 0) {
+        scores[currentPlayer] = originalScores[currentPlayer];
+        updateScoreDisplay();
+    }
+
+    // Ha a játékos pontosan nullára dob, akkor ő nyer
+    if (scores[currentPlayer] === 0) {
+        alert(`Player ${currentPlayer} wins!`);
+        resetGame();
+    }
 
     // Növeljük a dobások számát
     currentThrow++;
@@ -190,4 +219,33 @@ function updateScoreDisplay() {
     for (let i = 1; i <= selectedPlayers; i++) {
         document.getElementById(`player-${i}`).innerHTML = `Player ${i}: ${scores[i]}`;
     }
+}
+
+function resetGame() {
+    // Visszaállítjuk a játékosok pontszámát az eredeti értékre
+    for (let i = 1; i <= selectedPlayers; i++) {
+        scores[i] = originalScores[i];
+    }
+
+    // Visszaállítjuk a dobásokat és a jelenlegi játékost
+    currentPlayer = 1;
+    currentThrow = 0;
+
+    // Frissítjük a képernyőt
+    updateScoreDisplay();
+
+    // Visszaállítjuk a kezdő képernyőt
+    document.getElementById("players-selection").style.display = "block";
+    document.getElementById("players-display").style.display = "none";
+
+    // Visszaállítjuk a gombokat
+    document.getElementById("start-game-btn").disabled = false;
+    document.getElementById("start-game-btn").innerText = "Start Game";
+
+    // Elrejtjük a további dobási lehetőségeket
+    document.getElementById("numbers-selection").style.display = "none";
+
+    // Töröljük az előző játék információit
+    let playersDisplay = document.getElementById("players-display");
+    playersDisplay.innerHTML = '';
 }

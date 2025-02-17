@@ -1,23 +1,41 @@
-<div id="players-selection">
-    <p>Select the number of players:</p>
-    <div class="button-container">
-        <button onclick="selectPlayers(1)">1 Player</button>
-        <button onclick="selectPlayers(2)">2 Players</button>
-        <button onclick="selectPlayers(3)">3 Players</button>
-        <button onclick="selectPlayers(4)">4 Players</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dart Scoring App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Welcome to the Dart Scoring App!</h1>
+
+    <div id="players-selection">
+        <p>Select the number of players:</p>
+        <div class="button-container">
+            <button onclick="selectPlayers(1)">1 Player</button>
+            <button onclick="selectPlayers(2)">2 Players</button>
+            <button onclick="selectPlayers(3)">3 Players</button>
+            <button onclick="selectPlayers(4)">4 Players</button>
+        </div>
     </div>
-</div>
+    
+    <!-- A játékosok és pontjaik -->
+    <div id="players-display" style="display: none;"></div>
+    
+    <div id="numbers-selection" style="display: none;">
+        <div id="numbers" class="button-container"></div>
+    </div>
+    
+    
+    <!-- Jelenlegi játékos -->
+    <p id="player-turn"></p>
 
-<!-- A játékosok és pontjaik -->
-<div id="players-display" style="display: none;"></div>
+    <div id="camera-container">
+        <h2>Camera Feed</h2>
+        <img id="video-stream" src="{{ url_for('video_feed') }}" width="400">
+    </div>
+    
 
-<div id="numbers-selection" style="display: none;">
-    <div id="numbers" class="button-container"></div>
-</div>
-
-
-<!-- Jelenlegi játékos -->
-<p id="player-turn"></p>
-
-<!-- Linkelés a JavaScript fájlhoz -->
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
